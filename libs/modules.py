@@ -41,4 +41,5 @@ def run_module(passwords, driver):
 		pass_list = browser.run()
 		if len(pass_list) > 0:
 			for password in pass_list:
-				passwords.append(password)
+				if password not in passwords:
+					passwords.append(password)

@@ -24,8 +24,10 @@ def get_username_winapi():
 
 	return _buffer.value
 
+
 def prep_env():
 	user = get_username_winapi()
+	constant.is_current_user = True
 	constant.username = user
 	template_path = {
 		'APPDATA': u'{drive}:\\Users\\{user}\\AppData\\Roaming\\',

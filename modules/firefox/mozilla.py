@@ -519,6 +519,7 @@ class Mozilla(ModuleInfo):
 						for user, passw, url in credentials:
 							try:
 								pwd_found.append({
+									'Source': self.name,
 									'URL': url,
 									'Login': self.decrypt(key=key, iv=user[1], ciphertext=user[2]).decode('utf-8'),
 									'Password': self.decrypt(key=key, iv=passw[1], ciphertext=passw[2]).decode('utf-8'),
