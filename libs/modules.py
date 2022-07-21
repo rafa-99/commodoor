@@ -37,9 +37,8 @@ class ModuleInfo(object):
 
 def run_module(passwords, driver):
 	prep_env()
-	for browser in driver:
-		pass_list = browser.run()
-		if len(pass_list) > 0:
-			for password in pass_list:
-				if password not in passwords:
-					passwords.append(password)
+	pass_list = driver.run()
+	if pass_list:
+		for password in pass_list:
+			if password not in passwords:
+				passwords.append(password)
