@@ -1,10 +1,14 @@
+import sys
+
 from modules.chromium.chromium import Chromium
 from modules.firefox.mozilla import Mozilla
-from modules.windows.ie import IE
-from modules.windows.wifi import Wifi
-from modules.windows.vault import Vault
 
-import libs.windows.winstructure as win
+if sys.platform.startswith('win32'):
+	import libs.windows.winstructure as win
+	from modules.windows.ie import IE
+	from modules.windows.outlook import Outlook
+	from modules.windows.vault import Vault
+	from modules.windows.wifi import Wifi
 
 mozilla_browsers = [
 	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
@@ -47,6 +51,7 @@ class ModuleManager:
 			'mozilla': [],
 			'chromium': [],
 			'ie': False,
+			'outlook': False,
 			'wifi': False
 		}
 
@@ -66,13 +71,23 @@ class ModuleManager:
 		if 'all' in modules:
 			self.targets.get('mozilla').extend([module for module in mozilla_browsers])
 			self.targets.get('chromium').extend([module for module in chromium_browsers])
-			self.targets['ie'] = True
-			self.targets['wifi'] = True
-		else:
-			if 'ie' in modules:
+
+			if sys.platform.startswith('win32'):
 				self.targets['ie'] = True
 
-			if 'wifi' in modules:
+			if sys.platform.startswith('win32'):
+				self.targets['wifi'] = True
+
+			if sys.platform.startswith('win32'):
+				self.targets['outlook'] = True
+		else:
+			if 'ie' in modules and sys.platform.startswith('win32'):
+				self.targets['ie'] = True
+
+			if 'outlook' in modules and sys.platform.startswith('win32'):
+				self.targets['outlook'] = True
+
+			if 'wifi' in modules and sys.platform.startswith('win32'):
 				self.targets['wifi'] = True
 
 			for module in modules:
@@ -81,8 +96,8 @@ class ModuleManager:
 
 	def clear_targets(self):
 		self.targets = {
-			'mozilla': [],
 			'chromium': [],
+			'mozilla': [],
 			'ie': False,
 			'wifi': False
 		}
@@ -92,15 +107,17 @@ class ModuleManager:
 		for key in self.targets.keys():
 			if self.targets.get(key):
 				match key:
-					case 'mozilla':
-						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
 					case 'chromium':
 						drivers.extend([Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
+					case 'mozilla':
+						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
 					case 'ie':
 						if float(win.get_os_version()) > 6.1:
 							drivers.extend([Vault()])
 						else:
 							drivers.extend([IE()])
+					case 'outlook':
+						drivers.extend([Outlook()])
 					case 'wifi':
 						drivers.extend([Wifi()])
 		return drivers

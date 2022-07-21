@@ -6,12 +6,12 @@ if __name__ == '__main__':
 	manager = ModuleManager()
 
 	# -----------------------------------------
-	manager.select_target_modules('ie')
+	manager.select_target_modules('all')
 	drivers = manager.factory_drivers()
 	for driver in drivers:
 		run_module(passwords, driver)
 
-	# print(passwords)
+	print(passwords)
 
 	# -----------------------------------------
 
