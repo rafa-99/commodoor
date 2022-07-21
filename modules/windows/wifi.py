@@ -19,7 +19,6 @@ class Wifi(ModuleInfo):
         """
         Needs admin priv but will work with all systems
         """
-        print(constant)
         if constant.system_dpapi and constant.system_dpapi.unlocked:
             decrypted_blob = constant.system_dpapi.decrypt_wifi_blob(key)
             if decrypted_blob:
@@ -94,7 +93,7 @@ class Wifi(ModuleInfo):
                                             if not password:
                                                 password = self.decrypt_using_netsh(ssid=values['SSID'])
                                             if password:
-                                                values['Password'] = password
+                                                values['Password'] = password.decode("utf-8")
                                             else:
                                                 values['INFO'] = '[!] Password not found.'
                                         except Exception:
