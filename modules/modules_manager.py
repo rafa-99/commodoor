@@ -1,6 +1,7 @@
 from modules.chromium.chromium import Chromium
 from modules.firefox.mozilla import Mozilla
-from modules.legacyie.ie import IE
+from modules.windows.ie import IE
+from modules.windows.wifi import Wifi
 
 mozilla_browsers = [
 	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
@@ -42,7 +43,8 @@ class ModuleManager:
 		self.targets = {
 			'mozilla': [],
 			'chromium': [],
-			'ie': False
+			'ie': False,
+			'wifi': False
 		}
 
 	def select_target_modules(self, modules):
@@ -55,9 +57,13 @@ class ModuleManager:
 			self.targets.get('mozilla').extend([module for module in mozilla_browsers])
 			self.targets.get('chromium').extend([module for module in chromium_browsers])
 			self.targets['ie'] = True
+			self.targets['wifi'] = True
 		else:
 			if 'ie' in modules:
 				self.targets['ie'] = True
+
+			if 'wifi' in modules:
+				self.targets['wifi'] = True
 
 			for module in modules:
 				self.iterate_modules(module.lower(), self.targets, mozilla_browsers, 'mozilla')
@@ -81,4 +87,6 @@ class ModuleManager:
 						driver.extend([Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'ie':
 						driver.extend([IE()])
+					case 'wifi':
+						driver.extend([Wifi()])
 		return driver
