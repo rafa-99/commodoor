@@ -6,12 +6,12 @@ if __name__ == '__main__':
 	manager = ModuleManager()
 
 	# -----------------------------------------
-	manager.select_target_modules('wifi')
-	drivers = manager.prepare_modules_drivers()
+	manager.select_target_modules('ie')
+	drivers = manager.factory_drivers()
 	for driver in drivers:
 		run_module(passwords, driver)
 
-	print(passwords)
+	# print(passwords)
 
 	# -----------------------------------------
 
