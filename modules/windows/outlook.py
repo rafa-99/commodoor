@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 try:
 	import _winreg as winreg
 except ImportError:
@@ -46,7 +45,7 @@ class Outlook(ModuleInfo):
 		return pwd_found
 
 	def retrieve_info(self, hkey, name_key):
-		values = {'Source': 'outlook'}
+		values = {'Source': self.name}
 		num = winreg.QueryInfoKey(hkey)[1]
 		for x in range(0, num):
 			k = winreg.EnumValue(hkey, x)

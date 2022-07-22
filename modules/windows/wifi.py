@@ -66,7 +66,7 @@ class Wifi(ModuleInfo):
 
 						repository = os.path.join(interfaces_dir, wifi_dir)
 						for file in os.listdir(repository):
-							values = {'Source': 'wifi'}
+							values = {'Source': self.name}
 							if os.path.isfile(os.path.join(repository, file)):
 								f = os.path.join(repository, file)
 								tree = ElementTree(file=f)

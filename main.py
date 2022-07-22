@@ -1,5 +1,5 @@
 from libs.modules import run_module
-from libs.output import string_passwords, write_to_file
+from libs.io import string_passwords
 from modules.modules_manager import ModuleManager
 
 if __name__ == '__main__':

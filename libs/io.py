@@ -63,8 +63,8 @@ def string_passwords(passwords):
 	keys = set(password.get('Source') for password in passwords)
 
 	for key in keys:
-		string = string + "#########################################\n" + key.title() + \
-			" Based\n" + "#########################################\n"
+		string = string + "#########################################\n" + key.title() + "\n" + \
+			"#########################################\n"
 		for password in passwords:
 			if password.get('Source') == key:
 				password.pop('Source')

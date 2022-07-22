@@ -1,4 +1,4 @@
-from libs.output import print_debug
+from libs.io import print_debug
 
 from libs.windows.winapi import prep_env
 

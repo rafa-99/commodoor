@@ -13,7 +13,7 @@ from Crypto.Cipher import AES
 from libs.constant import constant
 from libs.modules import ModuleInfo
 from libs.windows.winstructure import Win32CryptUnprotectData
-from libs.windows.credman import Credman
+from modules.windows.credman import Credman
 
 
 class Chromium(ModuleInfo):

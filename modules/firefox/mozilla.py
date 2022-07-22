@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # portable decryption functions and BSD DB parsing by Laurent Clevy (@lorenzo2472)
 # from https://github.com/lclevy/firepwd/blob/master/firepwd.py
 

@@ -5,7 +5,7 @@ from libs.windows.DPAPI.masterkey import MasterKeyPool
 from libs.windows.DPAPI.credfile import CredFile
 from libs.windows.DPAPI.vault import Vault
 from libs.windows.DPAPI.blob import DPAPIBlob
-from libs.output import print_debug
+from libs.io import print_debug
 from libs.constant import constant
 from libs.windows.lsa_secrets import LSASecrets
 

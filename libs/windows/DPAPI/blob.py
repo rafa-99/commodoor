@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 Code based from these two awesome projects:
@@ -12,7 +11,7 @@ import traceback
 from .eater import DataStruct
 from . import crypto
 
-from libs.output import print_debug
+from libs.io import print_debug
 from libs.crypto.aes import AESModeOfOperationCBC
 from libs.crypto.des import CBC
 from libs.windows.winstructure import char_to_int
