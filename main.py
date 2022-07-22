@@ -1,4 +1,5 @@
 from libs.modules import run_module
+from libs.output import string_passwords, write_to_file
 from modules.modules_manager import ModuleManager
 
 if __name__ == '__main__':
@@ -11,16 +12,6 @@ if __name__ == '__main__':
 	for driver in drivers:
 		run_module(passwords, driver)
 
-	print(passwords)
-
-	# -----------------------------------------
-
-	# file = open('results.txt', 'w')
-	# file.write("-----------------------------------------\n")
-	# for password in passwords:
-	# 	for key, value in password.items():
-	# 		file.write(key + " : " + value + "\n")
-	# 	file.write("-----------------------------------------\n")
-	# file.close()
-
-	# -----------------------------------------
+	stringed_passwords = string_passwords(passwords)
+	print(stringed_passwords)
+	# write_to_file(stringed_passwords)

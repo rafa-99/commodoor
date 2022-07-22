@@ -56,3 +56,33 @@ def print_debug(error_level, message):
 
 	else:
 		print_logging(function=logging.info, message=message, prefix='[!]')
+
+
+def string_passwords(passwords):
+	string = ""
+	keys = set(password.get('Source') for password in passwords)
+
+	for key in keys:
+		string = string + "#########################################\n" + key.title() + \
+			" Based\n" + "#########################################\n"
+		for password in passwords:
+			if password.get('Source') == key:
+				password.pop('Source')
+				if key == 'chromium' or key == 'firefox' or key == 'vault':
+					string = string + "URL: " + password.get('URL') + "\n" + \
+						"Login: " + password.get('Login') + "\n" + \
+						"Password: " + password.get('Password') + "\n"
+
+				else:
+					for k, v in password.items():
+						string = string + k + " : " + v + "\n"
+				string = string + "-----------------------------------------\n"
+		string = string + "\n"
+
+	return string
+
+
+def write_to_file(data, path):
+	file = open(path, 'w')
+	file.write(data)
+	file.close()

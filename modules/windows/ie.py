@@ -151,6 +151,7 @@ class IE(ModuleInfo):
 				possible_password_str = str(possible_password)
 
 			pwd_found.append({
+				'Source': 'internet explorer',
 				'URL': u.decode('UTF-16LE'),
 				'Login': possible_login_str,
 				'Password': possible_password_str
