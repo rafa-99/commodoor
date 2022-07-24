@@ -1,8 +1,8 @@
 import argparse
 
-from libs.crypto.hybrid_rsa import genkeys, encrypt, decrypt
+from libs.crypto.hybrid_rsa import genkeys, string_to_encrypted_file, decrypt_file_to_string
 from libs.modules import run_module
-from libs.io import string_passwords, write_to_file
+from libs.io import string_passwords
 from modules.modules_manager import ModuleManager
 
 if __name__ == '__main__':
@@ -49,15 +49,16 @@ if __name__ == '__main__':
 		run_module(passwords, driver)
 
 	stringed_passwords = string_passwords(passwords)
-	# print(stringed_passwords)
 
 	# -----------------------------------------
 
-	public = 'public'
-	private = 'private'
+	# public = "public_key.pem"
+	# private = "private_key.pem"
+	# data = "data.enc"
+
 	# genkeys(private_key_path=private, public_key_path=public)
-	encrypted = encrypt(stringed_passwords, public)
-	# print(encrypted)
-	decrypted = decrypt(encrypted, private)
-	print(decrypted)
-	# write_to_file(stringed_passwords)
+
+	# string_to_encrypted_file(stringed_passwords, data, public)
+	# decrypted = decrypt_file_to_string(data, private)
+
+	# print(decrypted)

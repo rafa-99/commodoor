@@ -5,7 +5,7 @@ from Crypto.Random import get_random_bytes
 from libs.io import write_to_file
 
 
-def genkeys(bits=4096, private_key_path="private.pem", public_key_path="public.pem"):
+def genkeys(bits=2048, private_key_path="private.pem", public_key_path="public.pem"):
 	key = RSA.generate(bits)
 	private = key.exportKey()
 	public = key.public_key().exportKey()
@@ -36,13 +36,32 @@ def decrypt(encrypted, private_pem, encoding="utf-8"):
 	cipher_rsa = PKCS1_OAEP.new(private_key)
 
 	# Loading AES Session Key information
-	encrypted_aes_key = encrypted[0]
-	nonce = encrypted[1]
-	tag = encrypted[2]
-	ciphertext = encrypted[3]
+	encrypted_aes_key, nonce, tag, ciphertext = [byte for byte in encrypted]
 
 	# Importing decrypted AES Session key
 	aes_key = cipher_rsa.decrypt(encrypted_aes_key)
 	cipher_aes = AES.new(aes_key, AES.MODE_EAX, nonce)
 
 	return cipher_aes.decrypt_and_verify(ciphertext, tag).decode(encoding)
+
+
+def string_to_encrypted_file(string, path, public_key, encoding="utf-8", block_size=16):
+	data = encrypt(string, public_key, encoding, block_size)
+
+	for byte in data:
+		write_to_file(byte, path, 'ab')
+
+
+def decrypt_file_to_string(path, private_pem, encoding="utf-8", block_size=16):
+
+	data = []
+	private_key = RSA.import_key(open(private_pem).read())
+
+	file = open(path, "rb")
+
+	for byte in (private_key.size_in_bytes(), block_size, block_size, -1):
+		data.append(file.read(byte))
+
+	file.close()
+
+	return decrypt(data, private_pem, encoding)
