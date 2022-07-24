@@ -1,6 +1,6 @@
 import argparse
 
-from libs.crypto.hybrid_rsa import genkeys, string_to_encrypted_file, decrypt_file_to_string
+from libs.crypto.hybrid_rsa import genkeys, encrypt, decrypt
 from libs.modules import run_module
 from libs.io import string_passwords
 from modules.modules_manager import ModuleManager
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
 	# genkeys(private_key_path=private, public_key_path=public)
 
-	# string_to_encrypted_file(stringed_passwords, data, public)
-	# decrypted = decrypt_file_to_string(data, private)
+	# encrypt(stringed_passwords, data, public)
+	# decrypted = decrypt(data, private)
 
 	# print(decrypted)
