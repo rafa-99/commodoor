@@ -6,10 +6,12 @@ from libs.io import write_to_file
 
 
 def genkeys(bits=2048, private_key_path="private.pem", public_key_path="public.pem"):
+	# Generating and exporting keys
 	key = RSA.generate(bits)
 	private = key.exportKey()
 	public = key.public_key().exportKey()
 
+	# Writing keys into a file
 	write_to_file(private, private_key_path, 'wb')
 	write_to_file(public, public_key_path, 'wb')
 
