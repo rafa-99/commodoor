@@ -82,7 +82,7 @@ def string_passwords(passwords):
 	return string
 
 
-def write_to_file(data, path):
-	file = open(path, 'w')
+def write_to_file(data, path, mode='w'):
+	file = open(path, mode)
 	file.write(data)
 	file.close()
