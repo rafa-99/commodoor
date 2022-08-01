@@ -16,7 +16,7 @@ def genkeys(bits=2048, private_key_path="private.pem", public_key_path="public.p
 	write_to_file(public, public_key_path, 'wb')
 
 
-def encrypt_hybrid(text, public_pem, encoding="utf-8", block_size=16):
+def encrypt_hybrid(text, public_pem, mode=AES.MODE_GCM, encoding="utf-8", block_size=16):
 	# Importing public key
 	public_key = RSA.import_key(open(public_pem).read())
 	cipher_rsa = PKCS1_OAEP.new(public_key)
@@ -26,20 +26,20 @@ def encrypt_hybrid(text, public_pem, encoding="utf-8", block_size=16):
 	encrypted_aes_key = cipher_rsa.encrypt(aes_key)
 
 	# Encrypting data with AES Key
-	cipher_aes = AES.new(aes_key, AES.MODE_EAX)
+	cipher_aes = AES.new(aes_key, mode)
 	ciphertext, tag = cipher_aes.encrypt_and_digest(text.encode(encoding))
 
 	return [encrypted_aes_key, cipher_aes.nonce, tag, ciphertext]
 
 
 def encrypt(string, path, public_key, encoding="utf-8", block_size=16):
-	data = encrypt_hybrid(string, public_key, encoding, block_size)
+	data = encrypt_hybrid(string, public_key, encoding=encoding, block_size=block_size)
 
 	for byte in data:
 		write_to_file(byte, path, 'ab')
 
 
-def decrypt_hybrid(encrypted, private_pem, encoding="utf-8"):
+def decrypt_hybrid(encrypted, private_pem, mode=AES.MODE_GCM, encoding="utf-8"):
 	# Importing private key
 	private_key = RSA.import_key(open(private_pem).read())
 	cipher_rsa = PKCS1_OAEP.new(private_key)
@@ -49,7 +49,7 @@ def decrypt_hybrid(encrypted, private_pem, encoding="utf-8"):
 
 	# Importing decrypted AES Session key
 	aes_key = cipher_rsa.decrypt(encrypted_aes_key)
-	cipher_aes = AES.new(aes_key, AES.MODE_EAX, nonce)
+	cipher_aes = AES.new(aes_key, mode, nonce)
 
 	return cipher_aes.decrypt_and_verify(ciphertext, tag).decode(encoding)
 
@@ -66,4 +66,4 @@ def decrypt(path, private_pem, encoding="utf-8", block_size=16):
 
 	file.close()
 
-	return decrypt_hybrid(data, private_pem, encoding)
+	return decrypt_hybrid(data, private_pem, encoding=encoding)

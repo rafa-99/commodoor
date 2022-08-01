@@ -1,3 +1,2 @@
-py2exe
 pyasn1
 pycryptodome
