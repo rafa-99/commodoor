@@ -8,7 +8,7 @@ from modules.modules_manager import ModuleManager
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'genkeys', 'read'])
+	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'genkeys'])
 	parser.add_argument("-t", "--targets", help="sets the attack targets", nargs='+')
 	parser.add_argument("-k", "--key", help="set the key file path")
 	parser.add_argument("-i", "--input", help="set the input file path")
@@ -53,7 +53,3 @@ if __name__ == '__main__':
 
 		case 'genkeys':
 			genkeys()
-
-		case 'read':
-			if args.input:
-				print('Not Implemented Yet')
