@@ -1,6 +1,8 @@
+import sys
 from libs.io import print_debug
 
-from libs.windows.winapi import prep_env
+if sys.platform.startswith('win32'):
+	from libs.windows.winapi import prep_env
 
 
 class ModuleInfo(object):
@@ -36,7 +38,10 @@ class ModuleInfo(object):
 
 
 def run_module(passwords, driver):
-	prep_env()
+
+	if sys.platform.startswith('win32'):
+		prep_env()
+
 	pass_list = driver.run()
 	if pass_list:
 		for password in pass_list:

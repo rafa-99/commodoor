@@ -7,13 +7,17 @@ import sqlite3
 import string
 import tempfile
 import traceback
+import sys
 
 from Crypto.Cipher import AES
 
 from libs.constant import constant
 from libs.modules import ModuleInfo
-from libs.windows.winstructure import Win32CryptUnprotectData
-from modules.windows.credman import Credman
+
+
+if sys.platform.startswith('win32'):
+    from libs.windows.winstructure import Win32CryptUnprotectData
+    from modules.windows.credman import Credman
 
 
 class Chromium(ModuleInfo):

@@ -17,11 +17,13 @@ from libs.crypto.aes import AESModeOfOperationCBC
 from libs.crypto.des import triple_des, CBC
 from libs.dico import get_dic
 from libs.constant import constant
-from libs.windows.winstructure import char_to_int, convert_to_byte
 
 from binascii import unhexlify
 from base64 import b64decode
 from hashlib import sha1, pbkdf2_hmac
+
+if sys.platform.startswith('win32'):
+	from libs.windows.winstructure import char_to_int, convert_to_byte
 
 try:
 	from ConfigParser import RawConfigParser  # Python 2.7
