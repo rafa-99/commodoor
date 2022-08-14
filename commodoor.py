@@ -10,8 +10,11 @@ from modules.modules_manager import ModuleManager
 def arg_parser(args):
 	json = parse_json(args.input)
 
-	args.mode = json["mode"]
-	args.targets = json["targets"]
+	for arg in vars(args):
+		if arg in json.keys():
+			vars(args)[arg] = json[arg]
+		else:
+			vars(args)[arg] = None
 
 
 if __name__ == '__main__':
