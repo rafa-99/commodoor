@@ -13,12 +13,12 @@ if sys.platform.startswith('win32'):
 
 if sys.platform.startswith('win32'):
 	firefox_browsers = [
-	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
-	(u'blackHawk', u'{APPDATA}\\NETGATE Technologies\\BlackHawk'),
-	(u'cyberfox', u'{APPDATA}\\8pecxstudios\\Cyberfox'),
-	(u'comodo IceDragon', u'{APPDATA}\\Comodo\\IceDragon'),
-	(u'k-Meleon', u'{APPDATA}\\K-Meleon'),
-	(u'icecat', u'{APPDATA}\\Mozilla\\icecat'),
+		(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
+		(u'blackHawk', u'{APPDATA}\\NETGATE Technologies\\BlackHawk'),
+		(u'cyberfox', u'{APPDATA}\\8pecxstudios\\Cyberfox'),
+		(u'comodo IceDragon', u'{APPDATA}\\Comodo\\IceDragon'),
+		(u'k-Meleon', u'{APPDATA}\\K-Meleon'),
+		(u'icecat', u'{APPDATA}\\Mozilla\\icecat'),
 	]
 
 elif sys.platform.startswith('linux'):
@@ -93,6 +93,7 @@ class ModuleManager:
 
 			if sys.platform.startswith('win32'):
 				self.targets['wifi'] = True
+
 		else:
 			if 'internet explorer' in modules and sys.platform.startswith('win32'):
 				self.targets['internet explorer'] = True
@@ -126,7 +127,8 @@ class ModuleManager:
 			if self.targets.get(key):
 				match key:
 					case 'chromium':
-						drivers.extend([Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
+						drivers.extend(
+							[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'firefox':
 						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
 					case 'internet explorer':
