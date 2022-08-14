@@ -1,0 +1,6 @@
+{
+  "mode": "attack",
+  "targets": ["firefox", "chromium"],
+  "key": "public.pem",
+  "output": "passwords.enc"
+}

@@ -20,14 +20,14 @@ def arg_parser(args):
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'json', 'genkeys'])
+	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'payload', 'genkeys'])
 	parser.add_argument("-t", "--targets", help="sets the attack targets", nargs='+')
 	parser.add_argument("-k", "--key", help="set the key file path")
 	parser.add_argument("-i", "--input", help="set the input file path")
 	parser.add_argument("-o", "--output", help="sets the output file path")
 	args = parser.parse_args()
 
-	if args.mode == 'json' and args.input:
+	if args.mode == 'payload' and args.input:
 		arg_parser(args)
 
 	match args.mode:
