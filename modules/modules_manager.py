@@ -11,15 +11,22 @@ if sys.platform.startswith('win32'):
 	from modules.windows.vault import Vault
 	from modules.windows.wifi import Wifi
 
-firefox_browsers = [
-	(u'firefox', u'.mozilla/firefox'),
-	# (u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
+if sys.platform.startswith('win32'):
+	firefox_browsers = [
+	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
 	(u'blackHawk', u'{APPDATA}\\NETGATE Technologies\\BlackHawk'),
 	(u'cyberfox', u'{APPDATA}\\8pecxstudios\\Cyberfox'),
 	(u'comodo IceDragon', u'{APPDATA}\\Comodo\\IceDragon'),
 	(u'k-Meleon', u'{APPDATA}\\K-Meleon'),
 	(u'icecat', u'{APPDATA}\\Mozilla\\icecat'),
-]
+	]
+
+elif sys.platform.startswith('linux'):
+	firefox_browsers = [
+		(u'firefox', u'.mozilla/firefox'),
+		(u'icecat', u'.mozilla/icecat'),
+		(u'waterfox', u'.waterfox'),
+	]
 
 chromium_browsers = [
 	(u'7Star', u'{LOCALAPPDATA}\\7Star\\7Star\\User Data'),
