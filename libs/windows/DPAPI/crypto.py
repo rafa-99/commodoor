@@ -25,7 +25,7 @@ import sys
 from libs.crypto.rc4 import RC4
 from libs.crypto.aes import AESModeOfOperationCBC, AESModeOfOperationECB
 from libs.crypto.des import triple_des, des, ECB, CBC
-from libs.windows.winstructure import char_to_int, chr_or_byte
+from libs.conversions import char_to_int, chr_or_byte
 
 
 try:

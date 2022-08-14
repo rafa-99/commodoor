@@ -17,21 +17,16 @@ from libs.crypto.aes import AESModeOfOperationCBC
 from libs.crypto.des import triple_des, CBC
 from libs.dico import get_dic
 from libs.constant import constant
+from libs.conversions import char_to_int, convert_to_byte
 
 from binascii import unhexlify
 from base64 import b64decode
 from hashlib import sha1, pbkdf2_hmac
 
-if sys.platform.startswith('win32'):
-	from libs.windows.winstructure import char_to_int, convert_to_byte
+if sys.platform.startswith('linux'):
+	from libs.linux import homes
 
-try:
-	from ConfigParser import RawConfigParser  # Python 2.7
-except ImportError:
-	from configparser import RawConfigParser  # Python 3
-
-if sys.version_info[0]:
-	python_version = sys.version_info[0]
+from configparser import RawConfigParser
 
 def l(n):
 	try:
@@ -104,7 +99,8 @@ class Mozilla(ModuleInfo):
 						profile_path = os.path.join(directory, cp.get(section, 'Path').strip())
 
 					if profile_path:
-						profile_path = profile_path.replace('/', '\\')
+						if sys.platform.startswith('win32'):
+							profile_path = profile_path.replace('/', '\\')
 						profile_list.append(profile_path)
 
 		except Exception as e:
@@ -149,9 +145,6 @@ class Mozilla(ModuleInfo):
 
 						a11 = row[0]  # CKA_VALUE
 						a102 = row[1]  # f8000000000000000000000000000001, CKA_ID
-
-						if python_version == 2:
-							a102 = str(a102)
 
 						if a102 == CKA_ID:
 							# a11  : CKA_VALUE
@@ -458,7 +451,8 @@ class Mozilla(ModuleInfo):
 				return '', '', ''
 
 			return global_salt, master_password, entry_salt
-		except Exception:
+		except Exception as e:
+			print(e)
 			self.debug(traceback.format_exc())
 			return '', '', ''
 
@@ -508,11 +502,22 @@ class Mozilla(ModuleInfo):
 		Main function
 		"""
 		pwd_found = []
-		self.path = self.path.format(**constant.profile)
-		profileTest = constant.profile
-		if os.path.exists(self.path):
-			for profile in self.get_firefox_profiles(self.path):
-				# print(u'Profile path found: {profile}'.format(profile=profile))
+
+		if sys.platform.startswith('win32'):
+			self.path = self.path.format(**constant.profile)
+
+		if os.path.exists(self.path) or sys.platform.startswith('linux'):
+
+			if sys.platform.startswith('win32'):
+				profile_list = self.get_firefox_profiles(self.path)
+			elif sys.platform.startswith('linux'):
+				profile_list = (
+					item for sublist in (
+						self.get_firefox_profiles(path) for path in homes.get(directory=self.path)
+					) for item in sublist
+				)
+
+			for profile in profile_list:
 
 				credentials = self.get_login_data(profile)
 				if credentials:

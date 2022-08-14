@@ -1,4 +1,4 @@
-from libs.windows.winstructure import char_to_int, chr_or_byte
+from libs.conversions import char_to_int, chr_or_byte
 
 
 class RC4(object):

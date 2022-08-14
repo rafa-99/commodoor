@@ -14,7 +14,7 @@ from . import crypto
 from libs.io import print_debug
 from libs.crypto.aes import AESModeOfOperationCBC
 from libs.crypto.des import CBC
-from libs.windows.winstructure import char_to_int
+from libs.conversions import char_to_int
 
 AES_BLOCK_SIZE = 16
 

@@ -12,7 +12,8 @@ if sys.platform.startswith('win32'):
 	from modules.windows.wifi import Wifi
 
 firefox_browsers = [
-	(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
+	(u'firefox', u'.mozilla/firefox'),
+	# (u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
 	(u'blackHawk', u'{APPDATA}\\NETGATE Technologies\\BlackHawk'),
 	(u'cyberfox', u'{APPDATA}\\8pecxstudios\\Cyberfox'),
 	(u'comodo IceDragon', u'{APPDATA}\\Comodo\\IceDragon'),

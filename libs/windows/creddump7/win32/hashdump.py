@@ -28,7 +28,7 @@ from .rawreg import *
 from libs.crypto.rc4 import RC4
 from libs.crypto.des import des, ECB
 from libs.crypto.aes import AESModeOfOperationCBC
-from libs.windows.winstructure import char_to_int, chr_or_byte, int_or_bytes
+from libs.conversions import char_to_int, chr_or_byte, int_or_bytes
 
 
 odd_parity = [

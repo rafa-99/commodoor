@@ -468,27 +468,6 @@ def OpenKey(key, path, index=0, access=KEY_READ):
 isx64 = isx64machine()
 
 
-def char_to_int(string):
-	if python_version == 2 or isinstance(string, str):
-		return ord(string)
-	else:
-		return string  # Python 3
-
-
-def convert_to_byte(string):
-	if python_version == 2:
-		return string
-	else:
-		return string.encode()  # Python 3
-
-
-def chr_or_byte(integer):
-	if python_version == 2:
-		return chr(integer)
-	else:
-		return bytes([integer])  # Python 3
-
-
 def getData(blobOut):
 	cbData = blobOut.cbData
 	pbData = blobOut.pbData
@@ -498,17 +477,7 @@ def getData(blobOut):
 	return buffer.raw
 
 
-def int_or_bytes(integer):
-	if python_version == 2:
-		return integer
-	else:
-		return bytes([integer])  # Python 3
-
-
 def Win32CryptUnprotectData(cipherText, entropy=False, is_current_user=True, user_dpapi=False):
-	if python_version == 2:
-		cipherText = str(cipherText)
-
 	decrypted = None
 
 	if is_current_user:
