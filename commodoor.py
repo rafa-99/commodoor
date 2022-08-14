@@ -1,19 +1,31 @@
 import argparse
 
 from libs.crypto.hybrid_rsa import genkeys, encrypt, decrypt
-from libs.modules import run_module
 from libs.io import string_passwords, write_to_file
+from libs.json import parse_json
+from libs.modules import run_module
 from modules.modules_manager import ModuleManager
+
+
+def arg_parser(args):
+	json = parse_json(args.input)
+
+	args.mode = json["mode"]
+	args.targets = json["targets"]
+
 
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'genkeys'])
+	parser.add_argument("mode", help="select your mode", choices=['attack', 'decrypt', 'json', 'genkeys'])
 	parser.add_argument("-t", "--targets", help="sets the attack targets", nargs='+')
 	parser.add_argument("-k", "--key", help="set the key file path")
 	parser.add_argument("-i", "--input", help="set the input file path")
 	parser.add_argument("-o", "--output", help="sets the output file path")
 	args = parser.parse_args()
+
+	if args.mode == 'json' and args.input:
+		arg_parser(args)
 
 	match args.mode:
 		case 'attack':
