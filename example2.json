@@ -1,6 +1,6 @@
 {
-  "mode": "decrypt",
-  "input": "passwords.enc",
-  "key": "private.pem",
-  "output": "passwords.txt"
+  "mode": "attack",
+  "targets": ["firefox", "google chrome"],
+  "key": "public.pem",
+  "output": "passwords.enc"
 }

@@ -4,7 +4,7 @@ from libs.crypto.hybrid_rsa import genkeys, encrypt, decrypt
 from libs.io import string_passwords, write_to_file
 from libs.json import parse_json
 from libs.modules import run_module
-from modules.modules_manager import ModuleManager
+from modules.modules_manager import ModuleManager, firefox_browsers, chromium_browsers
 
 
 def arg_parser(args):
@@ -15,6 +15,16 @@ def arg_parser(args):
 			vars(args)[arg] = json[arg]
 		else:
 			vars(args)[arg] = None
+
+	if 'extra' in json.keys():
+		for browser in json['extra']:
+			match browser['engine']:
+				case 'chromium':
+					chromium_browsers.append((browser['name'], browser['data']))
+					vars(args)['targets'].append(browser['name'])
+				case 'firefox':
+					firefox_browsers.append((browser['name'], browser['data']))
+					vars(args)['targets'].append(browser['name'])
 
 
 if __name__ == '__main__':

@@ -1,0 +1,5 @@
+{
+  "mode": "attack",
+  "targets": ["firefox"],
+  "extra": [ {"engine" :"firefox", "name": "librewolf", "data": "{APPDATA}\\librewolf"}]
+}

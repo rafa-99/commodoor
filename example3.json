@@ -1,0 +1,6 @@
+{
+  "mode": "decrypt",
+  "input": "passwords.enc",
+  "key": "private.pem",
+  "output": "passwords.txt"
+}
