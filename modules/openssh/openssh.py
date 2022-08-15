@@ -132,13 +132,15 @@ class Openssh(ModuleInfo):
 								key_algorithm = "DSA"
 							elif "RSA PRIVATE KEY" in key_content_encoded or "OPENSSH PRIVATE KEY" in key_content_encoded:
 								key_algorithm = "RSA"
+							elif f in ('id_rsa', 'id_rsa.pub', 'id_dsa', 'id_dsa.pub', 'id_ecdsa', 'id_ecdsa.pub', 'id_ed25519', 'id_ed25519.pub'):
+								key_algorithm = "KEY"
 							else:
 								key_algorithm = None
 							# Check if the key can be loaded (used) without passphrase
 							# if key_algorithm is not None and self.is_private_key_unprotected(key_content_encoded,
 							#                                                                    key_algorithm):
 							if key_algorithm:
-								keys.append(key_content_encoded)
+								keys.append({'file': f, 'key': key_content_encoded})
 						except Exception as e:
 							self.error(u"Cannot load key file '%s' '%s'" % (key_file_path, e))
 							pass
@@ -151,8 +153,13 @@ class Openssh(ModuleInfo):
 			unprotected_private_keys = self.extract_private_keys_unprotected()
 			found_keys = list()
 			for key in unprotected_private_keys:
-				values = {"Private Key": key}
+				values = {
+					"Source": self.name,
+					"File": key['file'],
+					"Key": key['key']
+				}
 				found_keys.append(values)
+			return found_keys
 
 		elif sys.platform.startswith('linux'):
 			return list(self.get_ids())
