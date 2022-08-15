@@ -1,6 +1,7 @@
 import sys
 
 from modules.chromium.chromium import Chromium
+from modules.filezilla.filezilla import Filezilla
 from modules.firefox.mozilla import Mozilla
 from modules.openssh.openssh import Openssh
 
@@ -83,6 +84,7 @@ class ModuleManager:
 			'aws': False,
 			'credman': False,
 			'docker': False,
+			'filezilla': False,
 			'fstab': False,
 			'internet explorer': False,
 			'openssh': False,
@@ -109,6 +111,8 @@ class ModuleManager:
 
 			self.targets['openssh'] = True
 
+			self.targets['filezilla'] = True
+
 			if sys.platform.startswith('win32'):
 				self.targets['credman'] = True
 
@@ -134,6 +138,9 @@ class ModuleManager:
 
 			if 'openssh' in modules:
 				self.targets['openssh'] = True
+
+			if 'filezilla' in modules:
+				self.targets['filezilla'] = True
 
 			if 'credman' in modules and sys.platform.startswith('win32'):
 				self.targets['credman'] = True
@@ -167,6 +174,7 @@ class ModuleManager:
 			'aws': False,
 			'credman': False,
 			'docker': False,
+			'filezilla': False,
 			'fstab': False,
 			'internet explorer': False,
 			'openssh': False,
@@ -192,6 +200,8 @@ class ModuleManager:
 						drivers.extend([Credman()])
 					case 'docker':
 						drivers.extend([Docker()])
+					case 'filezilla':
+						drivers.extend([Filezilla()])
 					case 'fstab':
 						drivers.extend([Fstab()])
 					case 'internet explorer':
