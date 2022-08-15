@@ -2,3 +2,5 @@ pyasn1
 pycryptodome
 psutil
 dbus-python
+jeepney
+secretstorage

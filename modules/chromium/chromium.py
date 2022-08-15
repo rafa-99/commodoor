@@ -278,8 +278,7 @@ class Chromium(ModuleInfo):
 									dklen=self.enc_config['length'])
 
 								try:
-									password = self.chrome_decrypt(password, key=enc_key,
-																   init_vector=self.enc_config['iv'])
+									password = self.chrome_decrypt(password, key=enc_key, init_vector=self.enc_config['iv'])
 									password = password.decode()
 								except UnicodeDecodeError:
 									password = self._decrypt_v80(password, enc_key)
@@ -292,7 +291,7 @@ class Chromium(ModuleInfo):
 							print(traceback.format_exc())
 
 				if login:
-					creds = (url, login, password)
+					creds = (url, login, str(password))
 					yield creds
 		except Exception:
 			print(traceback.format_exc())

