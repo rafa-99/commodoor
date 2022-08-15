@@ -1,6 +1,6 @@
 pyasn1
 pycryptodome
-psutil
-dbus-python
-jeepney
-secretstorage
+psutil; sys_platform == 'linux'
+dbus-python; sys_platform == 'linux'
+jeepney; sys_platform == 'linux'
+secretstorage; sys_platform == 'linux'
