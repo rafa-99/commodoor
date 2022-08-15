@@ -25,7 +25,7 @@ class Openssh(ModuleInfo):
 				try:
 					with open(identity) as fidentity:
 						yield {
-							'Source': 'OpenSSH',
+							'Source': self.name,
 							'File': identity,
 							'User': user,
 							'Key': fidentity.read()
@@ -155,6 +155,4 @@ class Openssh(ModuleInfo):
 				found_keys.append(values)
 
 		elif sys.platform.startswith('linux'):
-			ids = list(self.get_ids())
-			print(ids)
-			return ids
+			return list(self.get_ids())
