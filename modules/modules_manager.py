@@ -14,6 +14,7 @@ if sys.platform.startswith('win32'):
 
 if sys.platform.startswith('linux'):
 	from modules.linux.docker import Docker
+	from modules.linux.fstab import Fstab
 	from modules.linux.libsecret import Libsecret
 
 if sys.platform.startswith('win32'):
@@ -78,8 +79,9 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
-			'docker': False,
 			'credman': False,
+			'docker': False,
+			'fstab': False,
 			'internet explorer': False,
 			'openssh': False,
 			'outlook': False,
@@ -120,6 +122,9 @@ class ModuleManager:
 			if sys.platform.startswith('linux'):
 				self.targets['docker'] = True
 
+			if sys.platform.startswith('linux'):
+				self.targets['fstab'] = True
+
 		else:
 
 			if 'openssh' in modules:
@@ -140,6 +145,9 @@ class ModuleManager:
 			if 'docker' in modules and sys.platform.startswith('linux'):
 				self.targets['docker'] = True
 
+			if 'fstab' in modules and sys.platform.startswith('linux'):
+				self.targets['fstab'] = True
+
 			for module in modules:
 				self.iterate_modules(module.lower(), self.targets, firefox_browsers, 'firefox')
 				self.iterate_modules(module.lower(), self.targets, chromium_browsers, 'chromium')
@@ -148,8 +156,9 @@ class ModuleManager:
 		self.targets = {
 			'chromium': [],
 			'firefox': [],
-			'docker': False,
 			'credman': False,
+			'docker': False,
+			'fstab': False,
 			'internet explorer': False,
 			'openssh': False,
 			'outlook': False,
@@ -172,6 +181,8 @@ class ModuleManager:
 						drivers.extend([Credman()])
 					case 'docker':
 						drivers.extend([Docker()])
+					case 'fstab':
+						drivers.extend([Fstab()])
 					case 'internet explorer':
 						if float(win.get_os_version()) > 6.1:
 							drivers.extend([Vault()])
