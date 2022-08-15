@@ -17,15 +17,17 @@ class Fstab(ModuleInfo):
 						if line.startswith('#'):
 							continue
 
-						filesystem, mount_point, _type, options, dump, _pass = line.strip().split()
-						if 'password' in options:
-							pwd_found.append({
-								'Source': self.name,
-								'Filesystem': filesystem,
-								'Mount Point': mount_point,
-								'Type': _type,
-								'Password': options
-							})
+						fstab_line = line.strip().split()
+						if len(fstab_line) == 6:
+							filesystem, mount_point, _type, options, dump, _pass = fstab_line
+							if 'password' in options:
+								pwd_found.append({
+									'Source': self.name,
+									'Filesystem': filesystem,
+									'Mount Point': mount_point,
+									'Type': _type,
+									'Password': options
+								})
 
 			except IOError as e:
 				self.debug(e.strerror)
