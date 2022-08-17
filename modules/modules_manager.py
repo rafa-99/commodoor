@@ -15,7 +15,6 @@ if sys.platform.startswith('win32'):
 
 if sys.platform.startswith('linux'):
 	from modules.linux.aws import Aws
-	from modules.linux.docker import Docker
 	from modules.linux.fstab import Fstab
 	from modules.linux.libsecret import Libsecret
 
@@ -83,7 +82,6 @@ class ModuleManager:
 			'firefox': [],
 			'aws': False,
 			'credman': False,
-			'docker': False,
 			'filezilla': False,
 			'fstab': False,
 			'internet explorer': False,
@@ -129,9 +127,6 @@ class ModuleManager:
 				self.targets['aws'] = True
 
 			if sys.platform.startswith('linux'):
-				self.targets['docker'] = True
-
-			if sys.platform.startswith('linux'):
 				self.targets['fstab'] = True
 
 		else:
@@ -157,9 +152,6 @@ class ModuleManager:
 			if 'aws' in modules and sys.platform.startswith('linux'):
 				self.targets['aws'] = True
 
-			if 'docker' in modules and sys.platform.startswith('linux'):
-				self.targets['docker'] = True
-
 			if 'fstab' in modules and sys.platform.startswith('linux'):
 				self.targets['fstab'] = True
 
@@ -173,7 +165,6 @@ class ModuleManager:
 			'firefox': [],
 			'aws': False,
 			'credman': False,
-			'docker': False,
 			'filezilla': False,
 			'fstab': False,
 			'internet explorer': False,
@@ -198,8 +189,6 @@ class ModuleManager:
 						drivers.extend([Aws()])
 					case 'credman':
 						drivers.extend([Credman()])
-					case 'docker':
-						drivers.extend([Docker()])
 					case 'filezilla':
 						drivers.extend([Filezilla()])
 					case 'fstab':
