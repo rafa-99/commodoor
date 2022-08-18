@@ -70,12 +70,12 @@ def string_passwords(passwords):
 				password.pop('Source')
 				if key == 'chromium' or key == 'firefox' or key == 'vault':
 					string = string + "URL: " + password.get('URL') + "\n" + \
-						"Login: " + password.get('Login') + "\n" + \
-						"Password: " + password.get('Password') + "\n"
+						"Login: " + str(password.get('Login')) + "\n" + \
+						"Password: " + str(password.get('Password')) + "\n"
 
 				else:
 					for k, v in password.items():
-						string = string + k + " : " + v + "\n"
+						string = string + str(k) + " : " + str(v) + "\n"
 				string = string + "-----------------------------------------\n"
 		string = string + "\n"
 

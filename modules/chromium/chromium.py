@@ -291,7 +291,7 @@ class Chromium(ModuleInfo):
 							print(traceback.format_exc())
 
 				if login:
-					creds = (url, login, str(password))
+					creds = (url, login, password)
 					yield creds
 		except Exception:
 			print(traceback.format_exc())
