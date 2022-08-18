@@ -1,5 +1,7 @@
 pyasn1
 pycryptodome
+py2exe; sys_platform == 'win32'
+pyinstaller; sys_platform == 'linux'
 psutil; sys_platform == 'linux'
 dbus-python; sys_platform == 'linux'
 jeepney; sys_platform == 'linux'
