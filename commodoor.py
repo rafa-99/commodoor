@@ -9,12 +9,11 @@ from modules.modules_manager import ModuleManager, firefox_browsers, chromium_br
 
 def arg_parser(args):
 	json = parse_json(args.input)
+	vars(args)['mode'] = vars(args)['input'] = None
 
 	for arg in vars(args):
-		if arg in json.keys():
+		if arg in json.keys() and vars(args)[arg] is None:
 			vars(args)[arg] = json[arg]
-		else:
-			vars(args)[arg] = None
 
 	if 'extra' in json.keys():
 		for browser in json['extra']:
