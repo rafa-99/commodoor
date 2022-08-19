@@ -177,31 +177,30 @@ class ModuleManager:
 		drivers = []
 		for key in self.targets.keys():
 			if self.targets.get(key):
-				match key:
-					case 'chromium':
-						if sys.platform.startswith('linux'):
-							drivers.extend([Libsecret()])
-						drivers.extend(
-							[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
-					case 'firefox':
-						drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
-					case 'aws':
-						drivers.extend([Aws()])
-					case 'credman':
-						drivers.extend([Credman()])
-					case 'filezilla':
-						drivers.extend([Filezilla()])
-					case 'fstab':
-						drivers.extend([Fstab()])
-					case 'internet explorer':
-						if float(win.get_os_version()) > 6.1:
-							drivers.extend([Vault()])
-						else:
-							drivers.extend([IE()])
-					case 'openssh':
-						drivers.extend([Openssh()])
-					case 'outlook':
-						drivers.extend([Outlook()])
-					case 'wifi':
-						drivers.extend([Wifi()])
+				if key == 'chromium':
+					if sys.platform.startswith('linux'):
+						drivers.extend([Libsecret()])
+					drivers.extend(
+						[Chromium(browser_name=name, paths=paths) for name, paths in self.targets.get(key)])
+				elif key == 'firefox':
+					drivers.extend([Mozilla(browser_name=name, path=path) for name, path in self.targets.get(key)])
+				elif key == 'aws':
+					drivers.extend([Aws()])
+				elif key == 'credman':
+					drivers.extend([Credman()])
+				elif key == 'filezilla':
+					drivers.extend([Filezilla()])
+				elif key == 'fstab':
+					drivers.extend([Fstab()])
+				elif key == 'internet explorer':
+					if float(win.get_os_version()) > 6.1:
+						drivers.extend([Vault()])
+					else:
+						drivers.extend([IE()])
+				elif key == 'openssh':
+					drivers.extend([Openssh()])
+				elif key == 'outlook':
+					drivers.extend([Outlook()])
+				elif key == 'wifi':
+					drivers.extend([Wifi()])
 		return drivers

