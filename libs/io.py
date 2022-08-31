@@ -64,14 +64,14 @@ def string_passwords(passwords):
 
 	for key in keys:
 		string = string + "#########################################\n" + key.title() + "\n" + \
-			"#########################################\n"
+				 "#########################################\n"
 		for password in passwords:
 			if password.get('Source') == key:
 				password.pop('Source')
 				if key == 'chromium' or key == 'firefox' or key == 'vault':
 					string = string + "URL: " + password.get('URL') + "\n" + \
-						"Login: " + str(password.get('Login')) + "\n" + \
-						"Password: " + str(password.get('Password')) + "\n"
+							 "Login: " + str(password.get('Login')) + "\n" + \
+							 "Password: " + str(password.get('Password')) + "\n"
 
 				else:
 					for k, v in password.items():
@@ -86,3 +86,10 @@ def write_to_file(data, path, mode='w'):
 	file = open(path, mode)
 	file.write(data)
 	file.close()
+
+
+def decode_check(string, encoding='utf-8'):
+	if isinstance(string, bytes):
+		return string.decode(encoding)
+	else:
+		return string

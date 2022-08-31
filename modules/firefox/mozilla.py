@@ -12,6 +12,7 @@ import os
 
 from pyasn1.codec.der import decoder
 
+from libs.io import decode_check
 from libs.modules import ModuleInfo
 from libs.crypto.aes import AESModeOfOperationCBC
 from libs.crypto.des import triple_des, CBC
@@ -479,10 +480,7 @@ class Mozilla(ModuleInfo):
 		"""
 		Remove PKCS#7 padding
 		"""
-		try:
-			nb = struct.unpack('B', data[-1])[0]  # Python 2
-		except Exception:
-			nb = data[-1]  # Python 3
+		nb = data[-1]  # Python 3
 
 		try:
 			return data[:-nb]
@@ -527,8 +525,8 @@ class Mozilla(ModuleInfo):
 								pwd_found.append({
 									'Source': self.name,
 									'URL': url,
-									'Login': self.decrypt(key=key, iv=user[1], ciphertext=user[2]).decode('utf-8'),
-									'Password': self.decrypt(key=key, iv=passw[1], ciphertext=passw[2]).decode('utf-8'),
+									'Login': decode_check(self.decrypt(key=key, iv=user[1], ciphertext=user[2])),
+									'Password': decode_check(self.decrypt(key=key, iv=passw[1], ciphertext=passw[2])),
 								})
 							except Exception:
 								self.debug(u'An error occured decrypting the password: {error}'.format(error=traceback.format_exc()))

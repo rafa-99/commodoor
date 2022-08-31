@@ -3,6 +3,7 @@ import subprocess
 import traceback
 
 import libs.windows.winstructure as win
+from libs.io import decode_check
 from libs.modules import ModuleInfo
 from libs.constant import constant
 
@@ -152,7 +153,7 @@ class IE(ModuleInfo):
 
 			pwd_found.append({
 				'Source': self.name,
-				'URL': u.decode('UTF-16LE'),
+				'URL': decode_check(u, 'UTF-16LE'),
 				'Login': possible_login_str,
 				'Password': possible_password_str
 			})

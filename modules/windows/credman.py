@@ -1,3 +1,4 @@
+from libs.io import decode_check
 from libs.modules import ModuleInfo
 from libs.windows.winstructure import *
 
@@ -25,10 +26,9 @@ class Credman(ModuleInfo):
 					if c.CredentialBlobSize.real < 200:
 						pwd_found.append({
 							'Source': self.name,
-							'URL': c.TargetName.decode("utf-8"),
-							'Login': c.UserName.decode("utf-8"),
-							'Password': c.CredentialBlob[:c.CredentialBlobSize.real].replace(b"\x00", b"").decode(
-								"utf-8")
+							'URL': decode_check(c.TargetName),
+							'Login': decode_check(c.UserName),
+							'Password': decode_check(c.CredentialBlob[:c.CredentialBlobSize.real].replace(b"\x00", b""))
 						})
 
 			CredFree(creds)

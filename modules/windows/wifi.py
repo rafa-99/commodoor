@@ -6,6 +6,7 @@ from xml.etree.cElementTree import ElementTree
 from subprocess import Popen, PIPE
 
 from libs.constant import constant
+from libs.io import decode_check
 from libs.modules import ModuleInfo
 from libs.windows.winstructure import python_version
 
@@ -30,10 +31,7 @@ class Wifi(ModuleInfo):
 		"""
         Does not need admin priv but would work only with english and french systems
         """
-		if python_version == 2:
-			name = 'содержимое ключа'
-		else:
-			name = 'содержимое ключа'.encode('utf-8')
+		name = 'содержимое ключа'.encode('utf-8')
 
 		language_keys = [
 			b'key content', b'contenu de la cl', name
@@ -92,7 +90,7 @@ class Wifi(ModuleInfo):
 											if not password:
 												password = self.decrypt_using_netsh(ssid=values['SSID'])
 											if password:
-												values['Password'] = password.decode("utf-8")
+												values['Password'] = decode_check(password)
 											else:
 												values['INFO'] = '[!] Password not found.'
 										except Exception:
