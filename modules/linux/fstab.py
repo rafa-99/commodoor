@@ -4,32 +4,30 @@ from libs.modules import ModuleInfo
 
 
 class Fstab(ModuleInfo):
-	def __init__(self):
-		ModuleInfo.__init__(self, 'fstab', 'sysadmin')
+    def __init__(self):
+        ModuleInfo.__init__(self, 'fstab', 'sysadmin')
 
-	def run(self):
-		pwd_found = []
-		path = '/etc/fstab'
-		if os.path.exists(path):
-			try:
-				with open(path) as fstab:
-					for line in fstab:
-						if line.startswith('#'):
-							continue
+    def run(self):
+        pwd_found = []
+        path = '/etc/fstab'
+        if os.path.exists(path):
+            try:
+                with open(path) as fstab:
+                    for line in fstab:
+                        line = line.strip()
+                        if not line or line.startswith('#'):
+                            continue
 
-						fstab_line = line.strip().split()
-						if len(fstab_line) == 6:
-							filesystem, mount_point, _type, options, dump, _pass = fstab_line
-							if 'password' in options:
-								pwd_found.append({
-									'Source': self.name,
-									'Filesystem': filesystem,
-									'Mount Point': mount_point,
-									'Type': _type,
-									'Password': options
-								})
+                        filesystem, mount_point, _type, options, dump, _pass = line.split()
+                        if 'pass' in options or 'cred' in options:
+                            pwd_found.append({
+                                'Filesystem': filesystem,
+                                'Mount Point': mount_point,
+                                'Type': _type,
+                                'Password': options
+                            })
 
-			except IOError as e:
-				self.debug(e.strerror)
+            except IOError as e:
+                self.debug(e.strerror)
 
-		return pwd_found
+        return pwd_found
