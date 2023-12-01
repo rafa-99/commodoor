@@ -4,6 +4,7 @@ from libs.constant import constant
 from libs.modules import ModuleInfo
 from libs.linux import homes
 from binascii import hexlify
+import pwd
 import traceback
 
 try:
@@ -82,7 +83,12 @@ class Libsecret(ModuleInfo):
 
                     # for k, v in item.get_attributes().iteritems():
                     #   values[unicode(k)] = unicode(v)
-                    items.append({'Source': self.name, 'Label': item.get_label(), 'Password': item.get_secret().decode('utf-8'), 'Collection': label})
+                    items.append({'Source': self.name,
+                                  'Owner': pwd.getpwuid(uid).pw_name,
+                                  'Collection': label,
+                                  'Label': item.get_label(),
+                                  'Content-Type': item.get_secret_content_type(),
+                                  'Password': item.get_secret().decode('utf-8')})
                     if item.get_label().endswith('Safe Storage'):
                         constant.chrome_storage.append(item.get_secret())
 
