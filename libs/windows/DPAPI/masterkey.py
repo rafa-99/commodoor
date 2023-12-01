@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Code based from these two awesome projects: 
+Code based from these two awesome projects:
 - DPAPICK : https://bitbucket.org/jmichel/dpapick
 - DPAPILAB : https://github.com/dfirfpi/dpapilab
 """
@@ -354,9 +354,9 @@ class MasterKeyPool(object):
         """
 
         # Check into cache to gain time (avoid checking twice the same thing)
-        if constant.dpapi_cache.get(sid): 
-            if constant.dpapi_cache[sid]['password'] == password: 
-                if constant.dpapi_cache[sid]['decrypted']: 
+        if constant.dpapi_cache.get(sid):
+            if constant.dpapi_cache[sid]['password'] == password:
+                if constant.dpapi_cache[sid]['decrypted']:
                     yield True, ''
                 else:
                     yield False, ''
@@ -445,15 +445,19 @@ class MasterKeyPool(object):
             for mkf in self.keys[guid].get('mkf', ''):
                 if not mkf.decrypted:
                     mk = mkf.masterkey
-                    mk.decrypt_with_key(self.system.user)
-                    if not mk.decrypted:
-                        mk.decrypt_with_key(self.system.machine)
+                    if mk:
+                        mk.decrypt_with_key(self.system.user)
+                        if not mk.decrypted:
+                            mk.decrypt_with_key(self.system.machine)
 
-                    if mk.decrypted:
-                        mkf.decrypted = True
-                        self.nb_mkf_decrypted += 1
+                        if mk.decrypted:
+                            mkf.decrypted = True
+                            self.nb_mkf_decrypted += 1
 
-                        yield True, u'System masterkey decrypted for {masterkey}'.format(masterkey=mkf.guid.decode())
+                            yield True, u'System masterkey decrypted for {masterkey}'.format(masterkey=mkf.guid.decode())
+                        else:
+                            yield False, u'System masterkey not decrypted for masterkey {masterkey}'.format(
+                                masterkey=mkf.guid.decode())
                     else:
-                        yield False, u'System masterkey not decrypted for masterkey {masterkey}'.format(
-                            masterkey=mkf.guid.decode())
+                        yield False, u'System masterkey not found for masterkey {masterkey}'.format(
+                            masterkey=mkf)
