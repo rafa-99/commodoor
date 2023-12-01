@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Code based from these two awesome projects: 
+Code based from these two awesome projects:
 - DPAPICK 	: https://bitbucket.org/jmichel/dpapick
 - DPAPILAB 	: https://github.com/dfirfpi/dpapilab
 """
@@ -138,4 +138,7 @@ class CredHistFile(DataStruct):
         Decrypts this credhist entry with the given user's password.
         Simply computes the password hash then calls self.decrypt_with_hash()
         """
+        if isinstance(password, bytes):
+            password = password.decode("latin-1")
+
         self.decrypt_with_hash(hashlib.sha1(password.encode("UTF-16LE")).digest())
