@@ -28,7 +28,7 @@ class Credman(ModuleInfo):
 							'Source': self.name,
 							'URL': decode_check(c.TargetName),
 							'Login': decode_check(c.UserName),
-							'Password': decode_check(c.CredentialBlob[:c.CredentialBlobSize.real].replace(b"\x00", b""))
+							'Password': decode_check(c.CredentialBlob[:c.CredentialBlobSize.real].replace(b"\x00", b""), 'latin-1')
 						})
 
 			CredFree(creds)
