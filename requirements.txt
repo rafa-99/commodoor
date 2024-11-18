@@ -1,7 +1,5 @@
 pyasn1
 pycryptodome
-pyinstaller
-py2exe; sys_platform == 'win32'
 tinyaes; sys_platform == 'linux'
 psutil; sys_platform == 'linux'
 dbus-python; sys_platform == 'linux'
