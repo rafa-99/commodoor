@@ -32,7 +32,6 @@ class constant():
 		'LOCALAPPDATA': u'{drive}:\\Users\\{user}\\AppData\\Local',
 	}
 	username = u''
-	keepass = {}
 	hives = {
 		'sam': os.path.join(
 			tmp,

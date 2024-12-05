@@ -85,11 +85,11 @@ class Chromium(ModuleInfo):
 							databases.add((os.path.join(path, profile, db), master_key))
 		return databases
 
-	def _decrypt_v80(self, buff, master_key):
+	def _decrypt_v80(self, buff, master_key, AES_mode):
 		try:
 			iv = buff[3:15]
 			payload = buff[15:]
-			cipher = AES.new(master_key, AES.MODE_GCM, iv)
+			cipher = AES.new(master_key, AES_mode, iv)
 			decrypted_pass = cipher.decrypt(payload)
 			if sys.platform.startswith('win32'):
 				decrypted_pass = decrypted_pass[:-16].decode()  # remove suffix bytes
@@ -282,6 +282,10 @@ class Chromium(ModuleInfo):
 									password = password.decode()
 								except UnicodeDecodeError:
 									password = self._decrypt_v80(password, enc_key)
+									try:
+										password = password.decode()
+									except UnicodeDecodeError:
+										password = self._decrypt_v80(password, enc_key, AES.MODE_CBC)
 								if password:
 									break
 								else:
